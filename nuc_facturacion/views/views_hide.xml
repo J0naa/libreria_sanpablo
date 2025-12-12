@@ -1,0 +1,5 @@
+<!-- <odoo>
+    <record id="account.menu_finance_payables" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+</odoo> -->

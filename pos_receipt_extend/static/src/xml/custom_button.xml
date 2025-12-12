@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_api_nit.PartnerDetailsEdit" t-inherit="point_of_sale.PartnerDetailsEdit" t-inherit-mode="extension">
+        <label for="vat" position="replace">
+            <label class="form-label label" for="vat">NIT</label>
+        </label>
+    </t>
+    <t t-name="pos_sync_orders.point_of_sale.PartnerListScreen" t-inherit="point_of_sale.PartnerListScreen" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('top-content')]/div[hasclass('highlight')]" position="after">
+            <div class="button highlight btn btn-primary"
+                style="margin: 0 8px; padding: 6px 20px;"
+                t-if="state.detailIsShown"
+                t-on-click="() => this.partnerEditor.processNitVerification()">
+                Buscar NIT
+            </div>
+
+        </xpath>
+    </t>
+</templates>

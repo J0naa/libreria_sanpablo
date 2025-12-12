@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--To add the customer details in the settings page-->
+<templates id="template" xml:space="preserve">
+    <t t-name="OrderReceiptfwbolder" t-inherit="point_of_sale.ReceiptHeader"
+       t-inherit-mode="extension" owl="1">
+           <xpath expr="//div[hasclass('pos-receipt-contact')]//div[hasclass('fw-bolder')]" position="replace"/> 
+
+ 
+    </t>
+</templates>

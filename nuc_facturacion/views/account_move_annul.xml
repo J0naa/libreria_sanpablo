@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_account_move_annul" model="ir.ui.view">
+            <field name="name">account.move.annul.form</field>
+            <field name="model">account.move.annul</field>
+            <field name="arch" type="xml">
+                <form string="Annul Journal Entry">
+                    <h2 class="text-center" style="color: chocolate;">Ingrese el motivo de la Anulación de este Documento Electrónico</h2>
+                    <group>
+                        <field name="name" placeholder="Motivo..." style="font-size: 28px;"/>
+                    </group>
+                     <footer>
+                        <button string='Anular Factura en SAT' name="annul_moves" type="object" class="btn-danger"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_view_account_move_annul" model="ir.actions.act_window">
+            <field name="name">Annul E-Document</field>
+            <field name="res_model">account.move.annul</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_account_move_annul"/>
+            <field name="target">new</field>
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+            <field name="binding_model_id" ref="account.model_account_move" />
+            <field name="binding_view_types">list</field>
+        </record>
+    </data>
+</odoo> 

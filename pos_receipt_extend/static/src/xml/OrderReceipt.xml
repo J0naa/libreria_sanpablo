@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--To add the customer details in the settings page-->
+<templates id="template" xml:space="preserve">
+    <t t-name="OrderReceipt" t-inherit="point_of_sale.ReceiptHeader"
+       t-inherit-mode="extension" owl="1">
+          <!-- <xpath expr="//div[hasclass('pos-receipt-contact')]//div[hasclass('fw-bolder')]" position="replace"/> -->
+
+       
+        <xpath expr="//div[hasclass('pos-receipt-contact')]" position="inside">
+
+         <div t-if="this.state.invoiceData.auth_number">
+                <div><b>Autorización:</b> <t t-esc="this.state.invoiceData.auth_number"/></div>
+                <div><b>Serie:</b> <t t-esc="this.state.invoiceData.dte_serie"/></div>
+                <div><b>Número DTE:</b> <t t-esc="this.state.invoiceData.dte_number"/></div>
+                <div><b>Fecha Envío:</b> <t t-esc="this.state.invoiceData.fecha_envio"/></div>
+            </div>
+            <t t-if="this.env.services.pos.customer_details">
+                <t t-if="this.env.services.pos.selectedOrder.partner">
+                    <t t-if="this.env.services.pos.name">
+                        <t t-if="this.env.services.pos.selectedOrder.partner.name">
+                            <div style="font-weight:bold;">
+                                <t t-esc="this.env.services.pos.selectedOrder.partner.name"/>
+                            </div>
+                        </t>
+                    </t>
+                    <t t-if="this.env.services.pos.address">
+                        <t t-if="this.env.services.pos.selectedOrder.partner.address">
+                            <div style="font-weight:bold;">
+                                <t t-esc="this.env.services.pos.selectedOrder.partner.address"/>
+                            </div>
+                        </t>
+                    </t>
+                   
+                    <t t-if="this.env.services.pos.vat">
+                        <t t-if="this.env.services.pos.selectedOrder.partner.vat">
+                            <div style="font-weight:bold;">
+                                <t t-esc="this.env.services.pos.selectedOrder.partner.vat"/>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </xpath>
+    </t>
+</templates>

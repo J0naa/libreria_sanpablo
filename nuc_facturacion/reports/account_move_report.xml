@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_invoice_document_add_dte_block"
+            inherit_id="account.report_invoice_document"
+            priority="220">
+    <!-- Insertamos DTE dentro del div de 'informations' -->
+      <!-- Insertar ANTES del primer bloque dentro de #informations -->
+
+    <!-- Insertar ANTES del primer bloque dentro de #informations -->
+   <xpath expr="//div[@id='informations']/div[1]" position="inside">
+      <t t-if="o.move_type == 'out_invoice' and (o.gt_dte_auth_number or o.gt_dte_numero or o.gt_dte_serie or o.gt_fecha_envio)">
+        <div >
+          <div>
+            
+            <p style="margin:0; font-size:12px;">
+              <strong>Serie:</strong> <span t-esc="o.gt_dte_serie or '-'"/>
+            </p>
+            <p style="margin:0; font-size:12px;">
+              <strong>Número:</strong> <span t-esc="o.gt_dte_numero or '-'"/>
+            </p>
+            <p style="margin:0; font-size:12px;">
+              <strong>Autorización:</strong> <span t-esc="o.gt_dte_auth_number or '-'"/>
+            </p>
+            <p style="margin:0; font-size:12px;">
+              <strong>Fecha envío:</strong> <span t-esc="o.gt_fecha_envio or '-'"/>
+            </p>
+
+          </div>
+        </div>
+      </t>
+    </xpath>
+  </template>
+</odoo>

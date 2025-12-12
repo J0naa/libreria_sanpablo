@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record id="custom_res_company_form_inherit" model="ir.ui.view">
+        <field name="name">res.company.form.inherit</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='city']" position="attributes">
+                <attribute name="placeholder">Municipio</attribute>
+            </xpath>
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="placeholder">Departamento</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+
+    <record id="view_company_server_nuc" model="ir.ui.view">
+      <field name="name">res.company.server.nuc.inherit</field>
+      <field name="inherit_id" ref="base.view_company_form" />
+      <field name="model">res.company</field>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='logo']" position="before">
+          <widget name="web_ribbon" title="Desarrollo" bg_color="bg-warning o_medium" invisible="type_env == True" />
+          <widget name="web_ribbon" title="Producción" bg_color="bg-success o_medium" invisible="type_env == False"/>
+        </xpath>
+        <xpath expr="//notebook" position="inside">
+          <page string="Configuracion NUC - GT">
+            <group string="Datos de Autenticación">
+              <group>
+                <field name="nuc_guatemala"/>
+                <field name="user" />
+                <field name="password" password="True"/>
+                <field name="afiliacion_iva" />
+                <field name="tipofrase" />
+                <field name="escenario" />
+                <field name="codigo_establecimiento" />
+              </group>
+
+              <group>
+                <field name="type_env" widget="boolean_toggle" />
+                <hr />
+         
+
+              </group>
+            </group>
+            
+          </page>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo> 

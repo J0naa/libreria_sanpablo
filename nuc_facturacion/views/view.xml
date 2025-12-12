@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="nuc_guatemala_view_form" model="ir.ui.view">
+            <field name="name">nuc.guatemala.view.form</field>
+            <field name="model">nuc.guatemala</field>
+            <field name="arch" type="xml">
+             
+                <form string="">
+                    <header>
+
+                    </header>
+
+                    <xpath expr="//header" position="inside">
+                    <button string="Token Digifact" name="get_token_nuc" type="object" class="oe_highlight"/>
+                    </xpath>
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="afiliacion_iva" />
+                            <field name="tipofrase" />
+                            <field name="escenario" />
+                            <field name="codigo_establecimiento" />
+                         
+                            
+
+                        </group>
+                        <notebook>
+                            <page name="general" string="General">
+                                <group >
+                                    <field name="user" />
+                                    <field name="password" password="True"/>
+                                </group>
+                            </page>
+                            <page name="produccion" string="Producción">
+                                <group >
+                                    <field name="url" />
+                                    <field name="url_annul" />
+                                    <field name="url_token" />
+                                    <field name="url_get_info_nit"/>
+                                    <field name="url_get_document"/>
+                                    <field name="token" />
+                                    <field name="expiration_date" />
+      
+                                </group>
+                            </page>
+                            <page name="dev" string="Desarrollo">
+                                <group >
+                                    <field name="url_dev" />
+                                    <field name="url_annul_dev" />
+                                    <field name="url_token_dev" />
+                                    <field name="url_get_info_nit_dev"/>
+                                    <field name="url_get_document_dev"/>
+                                    <field name="token_dev" />
+                                    <field name="expiration_date_dev" />
+                                  
+                                </group>
+
+                            </page>
+                         
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="nuc_guatemala_view_tree" model="ir.ui.view">
+            <field name="name">nuc_guatemala.view.tree</field>
+            <field name="model">nuc.guatemala</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name" />
+                   
+                </tree>
+            </field>
+        </record>
+
+        <record id="nuc_guatemala_view_search" model="ir.ui.view">
+            <field name="name">nuc_guatemala.view.search</field>
+            <field name="model">nuc.guatemala</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="name" />
+                   
+                </search>
+            </field>
+        </record>
+
+        <record id="nuc_guatemala_action" model="ir.actions.act_window">
+            <field name="name">Nuc Guatemala</field>
+            <field name="res_model">nuc.guatemala</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+      
+
+        <menuitem id="nuc_guatemala_menu" name="Facturacion Guatemala"  groups="group_nuc_guatemala" action="nuc_guatemala_action" parent="base.menu_users" sequence="50"/>
+    </data>
+
+
+</odoo>
