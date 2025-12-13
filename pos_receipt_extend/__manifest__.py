@@ -43,7 +43,7 @@
                 'pos_receipt_extend/static/src/js/custom_button.js',
                       'pos_receipt_extend/static/src/js/payment.js',
              'pos_receipt_extend/static/src/xml/custom_button.xml',
-            'pos_receipt_extend/static/src/js/pos_order_receipt.js',
+           ## 'pos_receipt_extend/static/src/js/pos_order_receipt.js',
        
 
         ]
