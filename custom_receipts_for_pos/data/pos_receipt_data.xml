@@ -5,118 +5,145 @@
         <!-- ========================================================= -->
         <!-- ========== DISEÑO 1 — CORPORATIVO (Estilo Walmart) ====== -->
         <!-- ========================================================= -->
-        <record id="pos_receipt_design_corporate" model="pos.receipt">
-            <field name="name">Diseño Corporativo FEL</field>
-            <field name="design_receipt"><![CDATA[
-<div class="pos-receipt">
+       <record id="pos_receipt_design_fel_guia" model="pos.receipt">
+    <field name="name">Diseño FEL Guatemala - Guía</field>
+    <field name="design_receipt"><![CDATA[
+<div class="pos-receipt" style="font-size:12px;">
 
-    <!-- LOGO EMPRESA -->
-                    <!-- LOGO -->
-                     <t t-if="env.services.pos.company">
-                        <div style="text-align:center;">
-                            <img t-attf-src="/web/image?model=res.company&amp;id={{env.services.pos.company.id}}&amp;field=logo" 
-                                 alt="Logo" 
-                                 style="width:30%; height:auto;"/>
-                        </div>
-                    </t>
-    
+    <!-- LOGO -->
+    <t t-if="env.services.pos.company">
+        <div style="text-align:center; margin-bottom:6px;">
+            <img t-attf-src="/web/image?model=res.company&amp;id={{env.services.pos.company.id}}&amp;field=logo"
+                 alt="Logo"
+                 style="width:30%; height:auto;"/>
+        </div>
+    </t>
 
-    <!-- INFORMACIÓN DE LA EMPRESA -->
-    <div class="pos-receipt-contact" style="font-size:12px; text-align:center;">
-        <div><strong><t t-esc="env.services.pos.company.name"/></strong></div>
-
+    <!-- DATOS EMPRESA -->
+    <div style="text-align:center;">
+        <strong><t t-esc="env.services.pos.company.name"/></strong><br/>
+        <t t-if="env.services.pos.company.vat">
+            NIT: <t t-esc="env.services.pos.company.vat"/><br/>
+        </t>
         <t t-if="env.services.pos.company.street">
-            <div><t t-esc="env.services.pos.company.street"/></div>
+            <t t-esc="env.services.pos.company.street"/><br/>
         </t>
         <t t-if="env.services.pos.company.phone">
-            <div>Tel: <t t-esc="env.services.pos.company.phone"/></div>
-        </t>
-        <t t-if="env.services.pos.company.vat">
-            <div>NIT: <t t-esc="env.services.pos.company.vat"/></div>
+            Tel: <t t-esc="env.services.pos.company.phone"/>
         </t>
     </div>
 
     <br/>
 
-    <!-- TITULO DTE -->
-    <div style="text-align:center; font-size:13px; font-weight:bold; border-bottom:1px solid #000;">
-        DOCUMENTO TRIBUTARIO ELECTRÓNICO (DTE)
+    <!-- TITULO -->
+    <div style="text-align:center; font-weight:bold; border-top:1px solid #000; border-bottom:1px solid #000; padding:4px;">
+        FACTURA
     </div>
 
     <br/>
 
-    <!-- INFORMACIÓN FEL -->
+    <!-- DATOS FEL -->
     <t t-if="props.receipt.invoice_data">
-        <div style="font-size:12px;">
-            <div><b>No. Autorización:</b> <t t-esc="props.receipt.invoice_data.auth_number"/></div>
-            <div><b>Serie:</b> <t t-esc="props.receipt.invoice_data.dte_serie"/></div>
-            <div><b>Número:</b> <t t-esc="props.receipt.invoice_data.dte_number"/></div>
-            <div><b>Fecha Emisión:</b> <t t-esc="props.receipt.invoice_data.fecha_envio"/></div>
+        <div>
+            <div>No. <t t-esc="props.receipt.invoice_data.dte_number"/></div>
+            <div>Autorización: <t t-esc="props.receipt.invoice_data.auth_number"/></div>
+            <div>Fecha: <t t-esc="props.receipt.invoice_data.fecha_envio"/></div>
+            <div>Certificador: DIGIFACT</div>
+            <div>NIT Certificador: 7745482-0</div>
+            <div>DIGIFACT SERVICIOS, SOCIEDAD ANÓNIMA</div>
         </div>
     </t>
 
     <br/>
 
     <!-- CLIENTE -->
-    <t t-if="props.receipt.invoice_data.client_name">
-        <div style="font-size:12px;">
-            <div><b>Cliente:</b> <t t-esc="props.receipt.invoice_data.client_name"/></div>
-            <t t-if="props.receipt.invoice_data.client_vat">
-                <div><b>NIT:</b> <t t-esc="props.receipt.invoice_data.client_vat"/></div>
-            </t>
-        </div>
-    </t>
+    <div>
+        <strong>Cliente:</strong>
+        <t t-esc="props.receipt.invoice_data.client_name or 'Consumidor Final'"/><br/>
+        <t t-if="props.receipt.invoice_data.client_vat">
+            <strong>NIT:</strong> <t t-esc="props.receipt.invoice_data.client_vat"/>
+        </t>
+    </div>
 
     <br/>
 
     <!-- PRODUCTOS -->
-    <table style="width:100%; font-size:12px; border-top:1px dashed;">
-        <tr>
-            <th style="text-align:left;">Producto</th>
-            <th style="text-align:center;">Cant.</th>
-            <th style="text-align:right;">Subtotal</th>
-        </tr>
-
-        <tr t-foreach="props.orderlines" t-as="l" t-key="l.cid">
-            <td><t t-esc="l.get_product().display_name"/></td>
-            <td style="text-align:center;"><t t-esc="l.get_quantity_str_with_unit()"/></td>
-            <td style="text-align:right;"><t t-esc="env.utils.formatCurrency(l.get_display_price())"/></td>
-        </tr>
+    <table style="width:100%; border-top:1px dashed #000;">
+        <thead>
+            <tr>
+                <th style="text-align:left;">Producto</th>
+                <th style="text-align:center;">Cant</th>
+                <th style="text-align:right;">P. Unit</th>
+                <th style="text-align:right;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr t-foreach="props.orderlines" t-as="l" t-key="l.cid">
+                <td><t t-esc="l.get_product().display_name"/></td>
+                <td style="text-align:center;">
+                    <t t-esc="l.get_quantity_str_with_unit()"/>
+                </td>
+                <td style="text-align:right;">
+                    <t t-esc="env.utils.formatCurrency(l.get_unit_price())"/>
+                </td>
+                <td style="text-align:right;">
+                    <t t-esc="env.utils.formatCurrency(l.get_display_price())"/>
+                </td>
+            </tr>
+        </tbody>
     </table>
 
     <br/>
 
     <!-- TOTALES -->
-    <div style="font-size:12px; border-top:1px solid #000; padding-top:4px;">
+    <div style="border-top:1px solid #000; padding-top:4px;">
         <div>
-            Subtotal <span style="float:right;"><t t-esc="env.utils.formatCurrency(props.receipt.total_without_tax)"/></span>
+            Subtotal:
+            <span style="float:right;">
+                <t t-esc="env.utils.formatCurrency(props.receipt.total_without_tax)"/>
+            </span>
         </div>
 
         <t t-foreach="props.receipt.tax_details" t-as="tx" t-key="tx.name">
             <div>
                 <t t-esc="tx.name"/>:
-                <span style="float:right;"><t t-esc="env.utils.formatCurrency(tx.amount)"/></span>
+                <span style="float:right;">
+                    <t t-esc="env.utils.formatCurrency(tx.amount)"/>
+                </span>
             </div>
         </t>
 
-        <div style="border-top:1px solid #000; margin-top:4px; font-weight:bold;">
-            Total <span style="float:right;"><t t-esc="env.utils.formatCurrency(props.receipt.amount_total)"/></span>
+        <div style="font-weight:bold; border-top:1px solid #000; margin-top:4px;">
+            TOTAL:
+            <span style="float:right;">
+                <t t-esc="env.utils.formatCurrency(props.receipt.amount_total)"/>
+            </span>
         </div>
     </div>
 
     <br/>
 
-    <!-- PIE DE FACTURACIÓN -->
-    <div style="font-size:11px; text-align:center;">
-        Documento validado por DIGIFACT<br/>
-        Proveedor Autorizado Calificado
+    <!-- METODO DE PAGO -->
+    <div>
+        Método de pago:
+        <t t-esc="props.paymentlines[0].name if props.paymentlines else 'N/A'"/>
     </div>
 
     <br/>
-    <div style="text-align:center; font-size:12px;">¡Gracias por su compra!</div>
+
+    <!-- MENSAJES FINALES -->
+    <div style="text-align:center; font-weight:bold;">
+        ¡GRACIAS POR SU COMPRA!
+    </div>
+
+    <div style="text-align:center; font-size:11px; margin-top:4px;">
+        Este documento es una representación impresa de un Documento Tributario Electrónico
+    </div>
+
 </div>
 ]]></field>
-        </record>
+</record>
+
 
         <!-- ========================================================= -->
         <!-- ========== DISEÑO 2 — MINIMALISTA (Estilo Apple) ========= -->
