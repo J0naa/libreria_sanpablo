@@ -1,28 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<template id="report_invoice_billing_and_dte_block"
-          inherit_id="account.report_invoice_document"
-          priority="260">
 
-    <!-- ===== CASO: address != shipping ===== -->
-    <xpath expr="//div[@id='partner_vat_address_not_same_as_shipping']"
-           position="replace">
-        <t t-call="account.report_invoice_billing_block"/>
-    </xpath>
-
-    <!-- ===== CASO: address == shipping ===== -->
-    <xpath expr="//div[@id='partner_vat_address_same_as_shipping']"
-           position="replace">
-        <t t-call="account.report_invoice_billing_block"/>
-    </xpath>
-
-    <!-- ===== CASO: sin shipping ===== -->
-    <xpath expr="//div[@id='partner_vat_no_shipping']"
-           position="replace">
-        <t t-call="account.report_invoice_billing_block"/>
-    </xpath>
-
-</template>
 
 <template id="account.report_invoice_billing_block">
 
@@ -85,6 +63,31 @@
         </t>
 
     </div>
+
+</template>
+
+
+<template id="report_invoice_billing_and_dte_block"
+          inherit_id="account.report_invoice_document"
+          priority="260">
+
+    <!-- ===== CASO: address != shipping ===== -->
+    <xpath expr="//div[@id='partner_vat_address_not_same_as_shipping']"
+           position="replace">
+        <t t-call="account.report_invoice_billing_block"/>
+    </xpath>
+
+    <!-- ===== CASO: address == shipping ===== -->
+    <xpath expr="//div[@id='partner_vat_address_same_as_shipping']"
+           position="replace">
+        <t t-call="account.report_invoice_billing_block"/>
+    </xpath>
+
+    <!-- ===== CASO: sin shipping ===== -->
+    <xpath expr="//div[@id='partner_vat_no_shipping']"
+           position="replace">
+        <t t-call="account.report_invoice_billing_block"/>
+    </xpath>
 
 </template>
 </odoo>
