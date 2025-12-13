@@ -1,165 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+<template id="report_invoice_billing_and_dte_block"
+          inherit_id="account.report_invoice_document"
+          priority="260">
 
-  <template id="report_invoice_document_custom_fel"
-            inherit_id="account.report_invoice_document"
-            priority="300">
+    <!-- ===== CASO: address != shipping ===== -->
+    <xpath expr="//div[@id='partner_vat_address_not_same_as_shipping']"
+           position="replace">
+        <t t-call="account.report_invoice_billing_block"/>
+    </xpath>
 
-    <!-- Reemplazamos el cuerpo principal -->
-       <xpath expr="//div[@class='page mb-4']" position="replace">
+    <!-- ===== CASO: address == shipping ===== -->
+    <xpath expr="//div[@id='partner_vat_address_same_as_shipping']"
+           position="replace">
+        <t t-call="account.report_invoice_billing_block"/>
+    </xpath>
 
-        <div class="page">
-            <t t-set="doc" t-value="o"/>
+    <!-- ===== CASO: sin shipping ===== -->
+    <xpath expr="//div[@id='partner_vat_no_shipping']"
+           position="replace">
+        <t t-call="account.report_invoice_billing_block"/>
+    </xpath>
 
-        <!-- ===================== -->
-        <!-- ENCABEZADO EMPRESA -->
-        <!-- ===================== -->
-        <div class="row mb-3 align-items-center">
-          <div class="col-4">
-            <img t-if="doc.company_id.logo"
-                 t-att-src="'data:image/png;base64,%s' % doc.company_id.logo"
-                 style="max-height:80px;"/>
-          </div>
+</template>
 
-          <div class="col-8 text-end" style="font-size:12px;">
-            <strong t-field="doc.company_id.name"/><br/>
-            <span t-field="doc.company_id.street"/><br/>
-            <t t-if="doc.company_id.phone">
-              Tel: <span t-field="doc.company_id.phone"/><br/>
-            </t>
-            <t t-if="doc.company_id.vat">
-              NIT: <span t-field="doc.company_id.vat"/>
-            </t>
-          </div>
+<template id="account.report_invoice_billing_block">
+
+    <div style="
+        margin-top:8px;
+        padding:10px 12px;
+        background:#f5f7f8;
+        border-left:4px solid var(--o-company-primary-color);
+        font-size:12px;
+        line-height:1.4;
+    ">
+
+        <!-- CLIENTE -->
+        <div style="margin-bottom:6px;">
+            <strong>Cliente:</strong>
+            <span t-field="o.partner_id.name"/>
         </div>
 
-        <!-- ===================== -->
-        <!-- TÍTULO -->
-        <!-- ===================== -->
-        <div style="
-          background: var(--o-company-primary-color);
-          color: white;
-          padding: 6px 10px;
-          font-weight: bold;
-          font-size: 14px;
-          border-radius: 4px;
-          margin-bottom: 12px;
-        ">
-          FACTURA ELECTRÓNICA
+        <div t-if="o.partner_id.vat" style="margin-bottom:6px;">
+            <strong>NIT:</strong>
+            <span t-field="o.partner_id.vat"/>
         </div>
 
-        <!-- ===================== -->
-        <!-- BLOQUE DTE -->
-        <!-- ===================== -->
-        <t t-if="doc.move_type == 'out_invoice'">
-          <div style="
-            background:#f6f7f9;
-            padding:10px;
-            border-radius:6px;
-            font-size:12px;
-            margin-bottom:12px;
-          ">
-            <strong>DTE Guatemala</strong><br/>
-            <strong>Serie:</strong> <span t-esc="doc.gt_dte_serie or '-'"/><br/>
-            <strong>Número:</strong> <span t-esc="doc.gt_dte_numero or '-'"/><br/>
-            <strong>Autorización:</strong> <span t-esc="doc.gt_dte_auth_number or '-'"/><br/>
-            <strong>Fecha envío:</strong> <span t-esc="doc.gt_fecha_envio or '-'"/><br/>
-            <strong>Certificador:</strong> DIGIFACT SERVICIOS, SOCIEDAD ANÓNIMA<br/>
-            <strong>NIT Certificador:</strong> 7745482-0
-          </div>
+        <hr style="margin:6px 0; border:none; border-top:1px solid #ddd;"/>
+
+        <!-- DATOS DTE -->
+        <t t-if="o.move_type == 'out_invoice'">
+            <div style="margin-bottom:6px;">
+                <strong>Factura Electrónica (DTE)</strong>
+            </div>
+
+            <div t-if="o.gt_dte_serie">
+                <strong>Serie:</strong>
+                <span t-esc="o.gt_dte_serie"/>
+            </div>
+
+            <div t-if="o.gt_dte_numero">
+                <strong>Número:</strong>
+                <span t-esc="o.gt_dte_numero"/>
+            </div>
+
+            <div t-if="o.gt_dte_auth_number">
+                <strong>Autorización:</strong>
+                <span t-esc="o.gt_dte_auth_number"/>
+            </div>
+
+            <div t-if="o.gt_fecha_envio">
+                <strong>Fecha envío:</strong>
+                <span t-esc="o.gt_fecha_envio"/>
+            </div>
+
+            <hr style="margin:6px 0; border:none; border-top:1px solid #ddd;"/>
+
+            <!-- CERTIFICADOR -->
+            <div>
+                <strong>Certificador:</strong><br/>
+                DIGIFACT SERVICIOS, SOCIEDAD ANÓNIMA<br/>
+                <strong>NIT:</strong> 7745482-0
+            </div>
         </t>
 
-        <!-- ===================== -->
-        <!-- CLIENTE -->
-        <!-- ===================== -->
-        <div class="row mb-3">
-          <div class="col-6" style="font-size:12px;">
-            <strong>Cliente</strong><br/>
-            <span t-field="doc.partner_id.name"/><br/>
-            <t t-if="doc.partner_id.vat">
-              NIT: <span t-field="doc.partner_id.vat"/>
-            </t>
-          </div>
-          <div class="col-6 text-end" style="font-size:12px;">
-            <strong>Fecha:</strong> <span t-field="doc.invoice_date"/><br/>
-            <strong>Factura No:</strong> <span t-field="doc.name"/>
-          </div>
-        </div>
+    </div>
 
-        <!-- ===================== -->
-        <!-- PRODUCTOS -->
-        <!-- ===================== -->
-        <table class="table table-sm table-bordered" style="font-size:12px;">
-          <thead style="background: var(--o-company-primary-color); color:white;">
-            <tr>
-              <th>Producto</th>
-              <th class="text-center">Cant</th>
-              <th class="text-end">P. Unit</th>
-              <th class="text-end">Total</th>
-            </tr>
-          </thead>
-        <tbody>
-    <t t-foreach="lines" t-as="line">
-        <tr>
-            <td>
-                <span t-field="line.name"/>
-            </td>
-            <td class="text-end">
-                <span t-field="line.quantity"/>
-            </td>
-            <td class="text-end">
-                <span t-field="line.price_unit"
-                      t-options='{"widget":"monetary","display_currency":o.currency_id}'/>
-            </td>
-            <td class="text-end">
-                <span t-field="line.price_subtotal"
-                      t-options='{"widget":"monetary","display_currency":o.currency_id}'/>
-            </td>
-        </tr>
-    </t>
-</tbody>
-        </table>
-
-        <!-- ===================== -->
-        <!-- TOTALES -->
-        <!-- ===================== -->
-        <div class="row justify-content-end mt-3">
-          <div class="col-5">
-            <table class="table table-sm">
-              <tr>
-                <th>Subtotal</th>
-                <td class="text-end">
-                  <span t-field="doc.amount_untaxed"
-                        t-options='{"widget":"monetary","display_currency":doc.currency_id}'/>
-                </td>
-              </tr>
-              <tr>
-                <th>IVA</th>
-                <td class="text-end">
-                  <span t-field="doc.amount_tax"
-                        t-options='{"widget":"monetary","display_currency":doc.currency_id}'/>
-                </td>
-              </tr>
-              <tr style="font-weight:bold;">
-                <th>Total</th>
-                <td class="text-end">
-                  <span t-field="doc.amount_total"
-                        t-options='{"widget":"monetary","display_currency":doc.currency_id}'/>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-
-        <!-- ===================== -->
-        <!-- PIE LEGAL -->
-        <!-- ===================== -->
-        <div style="text-align:center; font-size:11px; margin-top:20px;">
-          Este documento es una representación impresa de un Documento Tributario Electrónico
-        </div>
-
-      </div>
-    </xpath>
-  </template>
-
+</template>
 </odoo>
