@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+            <record id="hide_out_refund_menu" model="ir.ui.menu">
+            <field name="id" eval="ref('account.menu_action_move_out_refund_type')"/>
+            <field name="active" eval="False"/>
+        </record>
+        <record id="hide_vendor_refund_menu" model="ir.ui.menu">
+    <field name="id" eval="ref('account.menu_action_move_in_refund_type')"/>
+    <field name="active" eval="False"/>
+</record>
+
     <!-- Form view for the model `pos.receipt` -->
     <record id="pos_receipt_view_form" model="ir.ui.view">
         <field name="name">pos.receipt.view.form</field>
