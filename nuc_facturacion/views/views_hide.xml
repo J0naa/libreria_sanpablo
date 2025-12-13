@@ -1,5 +1,8 @@
-<!-- <odoo>
-    <record id="account.menu_finance_payables" model="ir.ui.menu">
+<odoo>
+    <record id="account.menu_action_move_out_refund_type" model="ir.ui.menu">
         <field name="active" eval="False"/>
     </record>
-</odoo> -->
+     <record id="account.menu_action_move_in_refund_type" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+</odoo>

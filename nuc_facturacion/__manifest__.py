@@ -24,7 +24,8 @@
         'views/account_move.xml',
         'views/account_move_annul.xml',
         'views/res_partner.xml',
-        'reports/account_move_report.xml'
+        'reports/account_move_report.xml',
+        'views/views_hide.xml',
     ],
    
    
