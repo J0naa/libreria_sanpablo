@@ -2,7 +2,8 @@
 <odoo>
 
 
-<template id="account.report_invoice_billing_block">
+<template id="account.report_invoice_billing_block"      t-name="account.report_invoice_billing_block">
+>
 
     <div style="
         margin-top:8px;
