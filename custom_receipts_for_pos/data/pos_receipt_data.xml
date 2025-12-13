@@ -11,11 +11,15 @@
 <div class="pos-receipt">
 
     <!-- LOGO EMPRESA -->
-    <t t-if="env.services.pos.company.logo">
-        <img class="pos-receipt-logo"
-             t-att-src="env.services.pos.company.logo"
-             alt="Logo" style="width: 40%; height: auto; margin-bottom:5px;"/>
-    </t>
+                    <!-- LOGO -->
+                     <t t-if="env.services.pos.company">
+                        <div style="text-align:center;">
+                            <img t-attf-src="/web/image?model=res.company&amp;id={{env.services.pos.company.id}}&amp;field=logo" 
+                                 alt="Logo" 
+                                 style="width:30%; height:auto;"/>
+                        </div>
+                    </t>
+    
 
     <!-- INFORMACIÓN DE LA EMPRESA -->
     <div class="pos-receipt-contact" style="font-size:12px; text-align:center;">
@@ -123,10 +127,15 @@
 <div class="pos-receipt" style="font-size:12px;">
 
     <!-- LOGO CENTRADO -->
-    <t t-if="env.services.pos.company.logo">
-        <img t-att-src="env.services.pos.company.logo"
-             style="width:50%; display:block; margin:auto;"/>
-    </t>
+                       <!-- LOGO -->
+                     <t t-if="env.services.pos.company">
+                        <div style="text-align:center;">
+                            <img t-attf-src="/web/image?model=res.company&amp;id={{env.services.pos.company.id}}&amp;field=logo" 
+                                 alt="Logo" 
+                                 style="width:30%; height:auto;"/>
+                        </div>
+                    </t>
+    
 
     <br/>
 
@@ -202,9 +211,15 @@
 <div class="pos-receipt" style="font-size:12px;">
 
     <div style="text-align:center;">
-        <t t-if="env.services.pos.company.logo">
-            <img t-att-src="env.services.pos.company.logo" style="width:35%;"/>
-        </t>
+                            <!-- LOGO -->
+                     <t t-if="env.services.pos.company">
+                        <div style="text-align:center;">
+                            <img t-attf-src="/web/image?model=res.company&amp;id={{env.services.pos.company.id}}&amp;field=logo" 
+                                 alt="Logo" 
+                                 style="width:30%; height:auto;"/>
+                        </div>
+                    </t>
+    
         <br/>
         <b><t t-esc="env.services.pos.company.name"/></b><br/>
         NIT: <t t-esc="env.services.pos.company.vat"/><br/>
@@ -226,7 +241,7 @@
 
     <hr/>
 
-    <b>Cliente</b><br/>
+   
      <t t-if="props.receipt.invoice_data.client_name">
         <div style="font-size:12px;">
             <div><b>Cliente:</b> <t t-esc="props.receipt.invoice_data.client_name"/></div>
@@ -277,9 +292,15 @@
 <div class="pos-receipt" style="font-size:12px;">
 
     <div style="text-align:center;">
-        <t t-if="env.services.pos.company.logo">
-            <img t-att-src="env.services.pos.company.logo" style="width:40%;"/>
-        </t>
+                           <!-- LOGO -->
+                     <t t-if="env.services.pos.company">
+                        <div style="text-align:center;">
+                            <img t-attf-src="/web/image?model=res.company&amp;id={{env.services.pos.company.id}}&amp;field=logo" 
+                                 alt="Logo" 
+                                 style="width:30%; height:auto;"/>
+                        </div>
+                    </t>
+    
         <br/>
         <b><t t-esc="env.services.pos.company.name"/></b>
     </div>
