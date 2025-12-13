@@ -64,50 +64,23 @@ class FacturacionGuatemala(models.Model):
         json = response.json()
         if json:
             if "Token" in json:
+             
                 token = json["Token"]
-                date = False
-
-                if json.get("expira_en"):
+                if json.get("expira_en") :
                     expira_en = json.get("expira_en", "").strip()
                     date = parser.parse(expira_en)
-
                 if is_production:
                     nuc_guatemal_id.token = token
                     nuc_guatemal_id.expiration_date = date
-                else:
+                else: 
                     nuc_guatemal_id.token_dev = token
                     nuc_guatemal_id.expiration_date_dev = date
-
-                return token
+                    
+                return json["Token"]
             else:
-                if json.get("response"):
-                    raise UserError(
-                        "No se encontró el token.\n"
-                        "Respuesta: {}\n"
-                        "Usuario enviado: {}\n"
-                        "Password enviada: {}".format(
-                            json.get("response"),
-                            username,
-                            nuc_guatemal_id.password
-                        )
-                    )
+                if json.get("response") :
+                    raise UserError("No se encontro el token: {}".format(json.get("response") ))
                 else:
-                    raise UserError(
-                        "No se pudo obtener el token.\n"
-                        "Usuario enviado: {}\n"
-                        "Password enviada: {}\n"
-                        "Verifique URL, USER y PASSWORD.".format(
-                            username,
-                            password
-                        )
-                    )
+                    raise UserError("Verificar la URL, USER, PSW del token, no se puede obtener.")
         else:
-            raise UserError(
-                "Respuesta vacía del servicio de token.\n"
-                "Usuario enviado: {}\n"
-                "Password enviada: {}\n"
-                "Verifique URL, USER y PASSWORD.".format(
-                    username,
-                    password
-                )
-            )
+            raise UserError("Verificar la URL, USER, PSW del token, no se puede obtener.")
