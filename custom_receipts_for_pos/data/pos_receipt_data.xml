@@ -54,11 +54,11 @@
     <br/>
 
     <!-- CLIENTE -->
-    <t t-if="props.receipt.partner">
+    <t t-if="props.receipt.invoice_data.client_name">
         <div style="font-size:12px;">
-            <div><b>Cliente:</b> <t t-esc="props.receipt.partner.name"/></div>
-            <t t-if="props.receipt.partner.vat">
-                <div><b>NIT:</b> <t t-esc="props.receipt.partner.vat"/></div>
+            <div><b>Cliente:</b> <t t-esc="props.receipt.invoice_data.client_name"/></div>
+            <t t-if="props.receipt.invoice_data.client_vat">
+                <div><b>NIT:</b> <t t-esc="props.receipt.invoice_data.client_vat"/></div>
             </t>
         </div>
     </t>
@@ -152,9 +152,13 @@
     <hr/>
 
     <b>Cliente</b><br/>
-    <t t-if="props.receipt.partner">
-        <t t-esc="props.receipt.partner.name"/><br/>
-        <t t-if="props.receipt.partner.vat">NIT: <t t-esc="props.receipt.partner.vat"/></t>
+   <t t-if="props.receipt.invoice_data.client_name">
+        <div style="font-size:12px;">
+            <div><b>Cliente:</b> <t t-esc="props.receipt.invoice_data.client_name"/></div>
+            <t t-if="props.receipt.invoice_data.client_vat">
+                <div><b>NIT:</b> <t t-esc="props.receipt.invoice_data.client_vat"/></div>
+            </t>
+        </div>
     </t>
 
     <hr/>
@@ -223,9 +227,13 @@
     <hr/>
 
     <b>Cliente</b><br/>
-    <t t-if="props.receipt.partner">
-        <t t-esc="props.receipt.partner.name"/><br/>
-        <t t-if="props.receipt.partner.vat">NIT: <t t-esc="props.receipt.partner.vat"/></t>
+     <t t-if="props.receipt.invoice_data.client_name">
+        <div style="font-size:12px;">
+            <div><b>Cliente:</b> <t t-esc="props.receipt.invoice_data.client_name"/></div>
+            <t t-if="props.receipt.invoice_data.client_vat">
+                <div><b>NIT:</b> <t t-esc="props.receipt.invoice_data.client_vat"/></div>
+            </t>
+        </div>
     </t>
 
     <hr/>
