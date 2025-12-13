@@ -98,22 +98,26 @@
               <th class="text-end">Total</th>
             </tr>
           </thead>
-          <tbody>
-            <t t-foreach="doc.invoice_line_ids" t-as="line">
-              <tr>
-                <td t-field="line.name"/>
-                <td class="text-center" t-field="line.quantity"/>
-                <td class="text-end">
-                  <span t-field="line.price_unit"
-                        t-options='{"widget":"monetary","display_currency":doc.currency_id}'/>
-                </td>
-                <td class="text-end">
-                  <span t-field="line.price_subtotal"
-                        t-options='{"widget":"monetary","display_currency":doc.currency_id}'/>
-                </td>
-              </tr>
-            </t>
-          </tbody>
+        <tbody>
+    <t t-foreach="lines" t-as="line">
+        <tr>
+            <td>
+                <span t-field="line.name"/>
+            </td>
+            <td class="text-end">
+                <span t-field="line.quantity"/>
+            </td>
+            <td class="text-end">
+                <span t-field="line.price_unit"
+                      t-options='{"widget":"monetary","display_currency":o.currency_id}'/>
+            </td>
+            <td class="text-end">
+                <span t-field="line.price_subtotal"
+                      t-options='{"widget":"monetary","display_currency":o.currency_id}'/>
+            </td>
+        </tr>
+    </t>
+</tbody>
         </table>
 
         <!-- ===================== -->
