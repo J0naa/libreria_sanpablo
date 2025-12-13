@@ -1,94 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <template id="report_invoice_header_custom_gt"
+              inherit_id="account.report_invoice_document"
+              priority="300">
 
-<template id="account.report_invoice_billing_block"      t-name="account.report_invoice_billing_block">
->
+        <!-- ================= HEADER ================= -->
+        <xpath expr="//h2" position="replace">
 
-    <div style="
-        margin-top:8px;
-        padding:10px 12px;
-        background:#f5f7f8;
-        border-left:4px solid var(--o-company-primary-color);
-        font-size:12px;
-        line-height:1.4;
-    ">
+            <div style="width:100%; font-size:12px;">
 
-        <!-- CLIENTE -->
-        <div style="margin-bottom:6px;">
-            <strong>Cliente:</strong>
-            <span t-field="o.partner_id.name"/>
-        </div>
+                <!-- FILA SUPERIOR -->
+                <table style="width:100%; border-collapse:collapse;">
+                    <tr>
 
-        <div t-if="o.partner_id.vat" style="margin-bottom:6px;">
-            <strong>NIT:</strong>
-            <span t-field="o.partner_id.vat"/>
-        </div>
+                        <!-- LOGO -->
+                        <td style="width:25%; vertical-align:top;">
+                            <img t-if="o.company_id.logo"
+                                 t-att-src="image_data_uri(o.company_id.logo)"
+                                 style="max-width:160px; height:auto;"/>
+                        </td>
 
-        <hr style="margin:6px 0; border:none; border-top:1px solid #ddd;"/>
+                        <!-- TITULO + DTE -->
+                        <td style="width:50%; text-align:center; vertical-align:top;">
+                            <div style="font-size:18px; font-weight:bold;
+                                        color:var(--o-company-primary-color);">
+                                FACTURA ELECTRÓNICA
+                            </div>
 
-        <!-- DATOS DTE -->
-        <t t-if="o.move_type == 'out_invoice'">
-            <div style="margin-bottom:6px;">
-                <strong>Factura Electrónica (DTE)</strong>
+                            <div style="margin-top:6px;">
+                                <strong>No.:</strong>
+                                <span t-field="o.name"/>
+                            </div>
+
+                            <t t-if="o.move_type == 'out_invoice'">
+                                <div style="margin-top:6px;">
+                                    <strong>Serie:</strong>
+                                    <span t-esc="o.gt_dte_serie or '-'"/>
+                                </div>
+                                <div>
+                                    <strong>Autorización:</strong>
+                                    <span t-esc="o.gt_dte_auth_number or '-'"/>
+                                </div>
+                                <div>
+                                    <strong>Fecha envío:</strong>
+                                    <span t-esc="o.gt_fecha_envio or '-'"/>
+                                </div>
+                            </t>
+                        </td>
+
+                        <!-- QR -->
+                       
+
+                    </tr>
+                </table>
+
+                <!-- SEPARADOR -->
+                <hr style="margin:12px 0; border:none; border-top:2px solid var(--o-company-primary-color);"/>
+
+                <!-- DATOS EMPRESA / CLIENTE -->
+                <table style="width:100%; font-size:12px;">
+                    <tr>
+
+                        <!-- EMISOR -->
+                        <td style="width:50%; vertical-align:top;">
+                            <strong>EMISOR</strong><br/>
+                            <span t-field="o.company_id.name"/><br/>
+                            <span t-field="o.company_id.street"/><br/>
+                            <t t-if="o.company_id.phone">
+                                Tel: <span t-field="o.company_id.phone"/><br/>
+                            </t>
+                            <strong>NIT:</strong>
+                            <span t-field="o.company_id.vat"/>
+                        </td>
+
+                        <!-- CLIENTE -->
+                        <td style="width:50%; vertical-align:top;">
+                            <strong>CLIENTE</strong><br/>
+                            <span t-field="o.partner_id.name"/><br/>
+                            <span t-field="o.partner_id.street"/><br/>
+                            <t t-if="o.partner_id.vat">
+                                <strong>NIT:</strong>
+                                <span t-field="o.partner_id.vat"/>
+                            </t>
+                        </td>
+
+                    </tr>
+                </table>
+
+                <!-- SEPARADOR -->
+                <hr style="margin:12px 0; border:none; border-top:1px solid #ccc;"/>
+
+                <!-- CERTIFICADOR -->
+                <div style="font-size:11px;">
+                    <strong>Certificador:</strong>
+                    DIGIFACT SERVICIOS, SOCIEDAD ANÓNIMA |
+                    <strong>NIT:</strong> 7745482-0
+                </div>
+
             </div>
 
-            <div t-if="o.gt_dte_serie">
-                <strong>Serie:</strong>
-                <span t-esc="o.gt_dte_serie"/>
-            </div>
+        </xpath>
 
-            <div t-if="o.gt_dte_numero">
-                <strong>Número:</strong>
-                <span t-esc="o.gt_dte_numero"/>
-            </div>
+    </template>
 
-            <div t-if="o.gt_dte_auth_number">
-                <strong>Autorización:</strong>
-                <span t-esc="o.gt_dte_auth_number"/>
-            </div>
-
-            <div t-if="o.gt_fecha_envio">
-                <strong>Fecha envío:</strong>
-                <span t-esc="o.gt_fecha_envio"/>
-            </div>
-
-            <hr style="margin:6px 0; border:none; border-top:1px solid #ddd;"/>
-
-            <!-- CERTIFICADOR -->
-            <div>
-                <strong>Certificador:</strong><br/>
-                DIGIFACT SERVICIOS, SOCIEDAD ANÓNIMA<br/>
-                <strong>NIT:</strong> 7745482-0
-            </div>
-        </t>
-
-    </div>
-
-</template>
-
-
-<template id="report_invoice_billing_and_dte_block"
-          inherit_id="account.report_invoice_document"
-          priority="260">
-
-    <!-- ===== CASO: address != shipping ===== -->
-    <xpath expr="//div[@id='partner_vat_address_not_same_as_shipping']"
-           position="replace">
-        <t t-call="account.report_invoice_billing_block"/>
-    </xpath>
-
-    <!-- ===== CASO: address == shipping ===== -->
-    <xpath expr="//div[@id='partner_vat_address_same_as_shipping']"
-           position="replace">
-        <t t-call="account.report_invoice_billing_block"/>
-    </xpath>
-
-    <!-- ===== CASO: sin shipping ===== -->
-    <xpath expr="//div[@id='partner_vat_no_shipping']"
-           position="replace">
-        <t t-call="account.report_invoice_billing_block"/>
-    </xpath>
-
-</template>
 </odoo>
