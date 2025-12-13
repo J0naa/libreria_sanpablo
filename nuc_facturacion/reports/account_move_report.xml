@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <template id="report_invoice_client_and_dte"
+    <template id="report_invoice_replace_header_block"
               inherit_id="account.report_invoice_document"
-              priority="250">
+              priority="300">
 
-        <!-- REEMPLAZA EL BLOQUE VAT DEL CLIENTE -->
-        <xpath expr="//div[@id='partner_vat_no_shipping']
-                      | //div[@id='partner_vat_address_same_as_shipping']
-                      | //div[@id='partner_vat_address_not_same_as_shipping']"
+        <!-- REEMPLAZAR EL PRIMER ROW (CLIENTE / SHIPPING) -->
+        <xpath expr="(//t[@t-call='web.external_layout']//div[@class='row'])[1]"
                position="replace">
 
-            <div class="row mt-1">
+            <div class="row mb-3">
 
                 <!-- ================= CLIENTE ================= -->
                 <div class="col-6">
 
-                    <address class="mb-0"
+                    <strong>Cliente</strong>
+                    <address class="mb-1"
                              t-field="o.partner_id"
                              t-options="{'widget':'contact','fields':['address','name'],'no_marker':True}"/>
 
-                    <div t-if="o.partner_id.vat" class="mt-1">
+                    <div t-if="o.partner_id.vat">
                         <strong>NIT:</strong>
                         <span t-field="o.partner_id.vat"/>
                     </div>
@@ -33,7 +32,7 @@
                      style="
                         background:#f5f7f8;
                         border-left:4px solid var(--o-company-primary-color);
-                        padding:8px 10px;
+                        padding:10px 12px;
                         font-size:12px;
                      ">
 
@@ -59,10 +58,17 @@
                         <span t-esc="o.gt_fecha_envio or '-'"/>
                     </div>
 
-                    <div class="mt-2"
-                         style="font-size:11px; font-style:italic; color:#555;">
+                    <hr style="margin:6px 0;"/>
+
+                    <div style="font-size:11px; font-style:italic;">
                         Este documento es una representación impresa de un
                         Documento Tributario Electrónico
+                    </div>
+
+                    <div class="mt-1">
+                        <strong>Certificador:</strong><br/>
+                        DIGIFACT SERVICIOS, SOCIEDAD ANÓNIMA<br/>
+                        <strong>NIT:</strong> 7745482-0
                     </div>
 
                 </div>
